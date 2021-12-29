@@ -306,7 +306,7 @@ class SelectPathType(BaseType):
 
     @type_operator(FIELD_NUMERIC)
     def greater_than_or_equal_to(self, other_numeric, path):
-        return self.greater_than(other_numeric) or self.equal_to(other_numeric)
+        return self.greater_than(other_numeric, path) or self.equal_to(other_numeric, path)
 
     @type_operator(FIELD_NUMERIC)
     def less_than(self, other_numeric, path):
@@ -317,4 +317,4 @@ class SelectPathType(BaseType):
 
     @type_operator(FIELD_NUMERIC)
     def less_than_or_equal_to(self, other_numeric, path):
-        return self.less_than(other_numeric) or self.equal_to(other_numeric)
+        return self.less_than(other_numeric, path) or self.equal_to(other_numeric, path)
