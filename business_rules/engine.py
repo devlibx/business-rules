@@ -51,6 +51,8 @@ def check_condition(condition, defined_variables):
     variables, values, and the comparison operator. The defined_variables
     object must have a variable defined for any variables in this condition.
     """
+    if "path" not in condition:
+        condition['path'] = ""
     name, op, value, path = condition['name'], condition['operator'], condition['value'], condition['path']
     operator_type = _get_variable_value(defined_variables, name)
     return _do_operator_comparison(operator_type, op, value, path)
@@ -81,11 +83,13 @@ def _do_operator_comparison(operator_type, operator_name, comparison_value, path
         raise AssertionError("Operator {0} does not exist for type {1}".format(
             operator_name, operator_type.__class__.__name__))
     method = getattr(operator_type, operator_name, fallback)
-    if getattr(method, 'input_type', '') == FIELD_NO_INPUT:
-        return method()
     if isinstance(operator_type, SelectPathType):
+        if getattr(method, 'input_type', '') == FIELD_NO_INPUT:
+            return method(path)
         return method(comparison_value, path)
     else:
+        if getattr(method, 'input_type', '') == FIELD_NO_INPUT:
+            return method()
         return method(comparison_value)
 
 def do_actions(actions, defined_actions):
