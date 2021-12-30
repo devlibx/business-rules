@@ -283,7 +283,7 @@ class SelectPathType(BaseType):
             if len(values) > 0:
                 final_val = values[0]
             else:
-                final_val = 0
+                raise AssertionError("{0} is not a valid select type".format(value))
         else:
             final_val = values
         return final_val
